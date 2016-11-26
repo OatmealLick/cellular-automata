@@ -27,13 +27,13 @@ public class GameOfLife extends Automaton2Dim{
     }
 
     @Override
-    protected Automaton newInstance(CellStateFactory factory, CellNeighbourhood neighbourhood) {
+    protected Automaton newInstance() {
         int height=super.getHeight(), width=super.getWidth();
 
 
         return new GameOfLife(
-                neighbourhood,
-                factory,
+                super.neighboursStrategy,
+                super.stateFactory,
                 height,
                 width,
                 quadMode);

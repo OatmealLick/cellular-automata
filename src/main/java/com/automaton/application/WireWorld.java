@@ -3,6 +3,7 @@ package com.automaton.application;
 import com.automaton.cell.Cell;
 import com.automaton.cell.CellNeighbourhood;
 import com.automaton.cell.CellStateFactory;
+import com.automaton.cell.MoorNeighbourhood;
 import com.automaton.states.BinaryState;
 import com.automaton.states.CellState;
 import com.automaton.states.WireElectronState;
@@ -16,20 +17,17 @@ import java.util.Set;
  */
 public class WireWorld extends Automaton2Dim{
 
-    WireWorld(CellNeighbourhood neighboursStrategy,
-              CellStateFactory stateFactory,
+    WireWorld(CellStateFactory stateFactory,
               int height, int width) {
-        super(neighboursStrategy, stateFactory, height, width);
+        super(new MoorNeighbourhood(width, height, 1, false), stateFactory, height, width);
     }
 
     @Override
-    protected Automaton newInstance(CellStateFactory factory, CellNeighbourhood neighbourhood) {
-        //TODO should it be insta Moor?
+    protected Automaton newInstance() {
         int height=super.getHeight(), width=super.getWidth();
 
         return new WireWorld(
-                neighbourhood,
-                factory,
+                super.stateFactory,
                 height,
                 width);
     }

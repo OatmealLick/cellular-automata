@@ -19,7 +19,6 @@ public class ElementaryAutomatonTest {
     @Test
     public void nextStateAfterWidth5() {
         Automaton automaton = new ElementaryAutomaton(
-                new ElementaryNeighbourhood(5),
                 new UniformStateFactory(BinaryState.ALIVE),
                 5,
                 (byte)30
@@ -38,7 +37,6 @@ public class ElementaryAutomatonTest {
                 ((ElementaryAutomaton)generatedNextState).getWidth()==5);
 
         Automaton correctAutomatonAfterNextState = new ElementaryAutomaton(
-                new ElementaryNeighbourhood(5),
                 new UniformStateFactory(BinaryState.ALIVE),
                 5,
                 (byte)30
@@ -56,7 +54,6 @@ public class ElementaryAutomatonTest {
     @Test
     public void rule30Width101State5StartingFromOneCellAliveAtPosition50() {
         Automaton automaton = new ElementaryAutomaton(
-                new ElementaryNeighbourhood(101),
                 new UniformStateFactory(BinaryState.DEAD),
                 101,
                 (byte)30
@@ -71,7 +68,6 @@ public class ElementaryAutomatonTest {
         Automaton generatedNextState1 = automaton.nextState();
 
         Automaton correctAutomatonState1 = new ElementaryAutomaton(
-                new ElementaryNeighbourhood(101),
                 new UniformStateFactory(BinaryState.DEAD),
                 101,
                 (byte)30
@@ -89,7 +85,6 @@ public class ElementaryAutomatonTest {
 
 
         Automaton correctAutomatonState2 = new ElementaryAutomaton(
-                new ElementaryNeighbourhood(101),
                 new UniformStateFactory(BinaryState.DEAD),
                 101,
                 (byte)30

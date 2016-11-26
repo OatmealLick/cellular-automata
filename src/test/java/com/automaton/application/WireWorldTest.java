@@ -18,7 +18,6 @@ public class WireWorldTest {
     public void twoNextStatesFromCustomOpening() {
         int height=5, width=5;
         Automaton game = new WireWorld(
-                new MoorNeighbourhood(width,height,1,false),
                 new UniformStateFactory(WireElectronState.VOID),
                 height,
                 width);
@@ -53,7 +52,6 @@ public class WireWorldTest {
         game.insertStructure(state0);
 
         Automaton state1Automaton = new WireWorld(
-                new MoorNeighbourhood(width, height, 1, false),
                 new UniformStateFactory(WireElectronState.VOID),
                 height,
                 width
@@ -62,7 +60,6 @@ public class WireWorldTest {
         state1Automaton.insertStructure(state1);
 
         Automaton state2Automaton = new WireWorld(
-                new MoorNeighbourhood(width, height, 1, false),
                 new UniformStateFactory(WireElectronState.VOID),
                 height,
                 width

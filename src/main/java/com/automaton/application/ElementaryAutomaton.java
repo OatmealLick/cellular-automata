@@ -15,11 +15,10 @@ public class ElementaryAutomaton extends Automaton1Dim {
     private byte rule;
     private BinaryState[] ruleOutcomes = new BinaryState[8];
 
-    ElementaryAutomaton(CellNeighbourhood neighboursStrategy,
-                        CellStateFactory stateFactory,
+    ElementaryAutomaton(CellStateFactory stateFactory,
                         int width,
                         byte rule) {
-        super(neighboursStrategy, stateFactory, width);
+        super(new ElementaryNeighbourhood(width), stateFactory, width);
         this.rule=rule;
 
         for(int i=0; i<ruleOutcomes.length; i++)
@@ -31,10 +30,9 @@ public class ElementaryAutomaton extends Automaton1Dim {
     }
 
     @Override
-    protected Automaton newInstance(CellStateFactory factory, CellNeighbourhood neighbourhood) {
+    protected Automaton newInstance() {
         return new ElementaryAutomaton(
-                neighbourhood,
-                factory,
+                super.stateFactory,
                 super.getWidth(),
                 rule
         );

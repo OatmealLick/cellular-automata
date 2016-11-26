@@ -16,8 +16,8 @@ import java.util.*;
  */
 public abstract class Automaton {
     private Map<CellCoordinates, CellState> cells = new HashMap<>();
-    private CellNeighbourhood neighboursStrategy;
-    private CellStateFactory stateFactory;
+    protected CellNeighbourhood neighboursStrategy;
+    protected CellStateFactory stateFactory;
 
     Automaton(CellNeighbourhood neighboursStrategy,
                      CellStateFactory stateFactory) {
@@ -39,7 +39,7 @@ public abstract class Automaton {
      * @return
      */
     public Automaton nextState() {
-        Automaton automaton = newInstance(stateFactory,neighboursStrategy);
+        Automaton automaton = newInstance();
         CellIterator currentStateIterator = cellIterator();
         CellIterator nextStateIterator = automaton.cellIterator();
 
@@ -64,7 +64,7 @@ public abstract class Automaton {
         return new CellIterator();
     }
 
-    protected abstract Automaton newInstance(CellStateFactory factory, CellNeighbourhood neighbourhood);
+    protected abstract Automaton newInstance();
 
     protected abstract boolean hasNextCoordinates(CellCoordinates coords);
 

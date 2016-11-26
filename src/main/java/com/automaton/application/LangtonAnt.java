@@ -1,10 +1,8 @@
 package com.automaton.application;
 
-import com.automaton.cell.Cell;
-import com.automaton.cell.CellNeighbourhood;
-import com.automaton.cell.CellStateFactory;
-import com.automaton.cell.Coords2D;
+import com.automaton.cell.*;
 import com.automaton.states.*;
+import com.automaton.states.CellState;
 
 import java.util.*;
 
@@ -14,21 +12,19 @@ import java.util.*;
 public class LangtonAnt extends Automaton2Dim{
     private boolean wrapping;
 
-    LangtonAnt(CellNeighbourhood neighboursStrategy,
-               CellStateFactory stateFactory,
+    LangtonAnt(CellStateFactory stateFactory,
                int height, int width,
                boolean wrapping) {
-        super(neighboursStrategy, stateFactory, height, width);
+        super(new VonNeumanNeighbourhood(width, height, 1, wrapping), stateFactory, height, width);
         this.wrapping = wrapping;
     }
 
     @Override
-    protected Automaton newInstance(CellStateFactory factory, CellNeighbourhood neighbourhood) {
+    protected Automaton newInstance() {
         int height=super.getHeight(), width=super.getWidth();
 
         return new LangtonAnt(
-                neighbourhood,
-                factory,
+                super.stateFactory,
                 height,
                 width,
                 wrapping);

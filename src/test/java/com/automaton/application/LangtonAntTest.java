@@ -22,7 +22,6 @@ public class LangtonAntTest {
     public void langtonNextStatesTestGodHaveMercyUponOurSouls() {
         int height = 3, width = 3;
         Automaton twoAntsBothInTheMiddle = new LangtonAnt(
-                new VonNeumanNeighbourhood(width, height, 1, false),
                 new UniformStateFactory(new LangtonCell(BinaryState.DEAD)),
                 height,
                 width,
@@ -40,7 +39,6 @@ public class LangtonAntTest {
         Automaton state1 = twoAntsBothInTheMiddle.nextState();
 
         Automaton computedState = new LangtonAnt(
-                new VonNeumanNeighbourhood(width, height, 1, false),
                 new UniformStateFactory(new LangtonCell(BinaryState.DEAD)),
                 height,
                 width,
@@ -82,7 +80,6 @@ public class LangtonAntTest {
         map2.put(new Coords2D(2,1), five2);
 
         Automaton computedState2 = new LangtonAnt(
-                new VonNeumanNeighbourhood(width, height, 1, false),
                 new UniformStateFactory(new LangtonCell(BinaryState.DEAD)),
                 height,
                 width,
@@ -101,7 +98,6 @@ public class LangtonAntTest {
     public void oneAndTeleportingIMeanWrappinglyAppearingOnTheOtherSide() {
         int height = 5, width = 5;
         Automaton oneLonelyAnt = new LangtonAnt(
-                new VonNeumanNeighbourhood(width, height, 1, true),
                 new UniformStateFactory(new LangtonCell(BinaryState.DEAD)),
                 height,
                 width,
@@ -118,7 +114,6 @@ public class LangtonAntTest {
         Automaton state1 = oneLonelyAnt.nextState();
 
         Automaton computedState = new LangtonAnt(
-                new VonNeumanNeighbourhood(width, height, 1, true),
                 new UniformStateFactory(new LangtonCell(BinaryState.DEAD)),
                 height,
                 width,
@@ -143,7 +138,6 @@ public class LangtonAntTest {
     public void langtonWrappingOn5For5() {
         int height = 5, width = 5;
         Automaton antsInTheUpperLeftCornerTeleportingToDifferentCorners = new LangtonAnt(
-                new VonNeumanNeighbourhood(width, height, 1, true),
                 new UniformStateFactory(new LangtonCell(BinaryState.DEAD)),
                 height,
                 width,
@@ -161,7 +155,6 @@ public class LangtonAntTest {
         Automaton state1 = antsInTheUpperLeftCornerTeleportingToDifferentCorners.nextState();
 
         Automaton computedState = new LangtonAnt(
-                new VonNeumanNeighbourhood(width, height, 1, true),
                 new UniformStateFactory(new LangtonCell(BinaryState.DEAD)),
                 height,
                 width,
