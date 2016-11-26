@@ -8,6 +8,12 @@ import java.util.*;
 /**
  * Created by lick on 11/12/16.
  */
+
+/**
+ * Core of application. Used to generate states of board with its nextState(). Every particular kind of autmaton game
+ * such as Game of Life or Langton Ant extends Automaton and uses its mechanics. Automaton is a template for every
+ * particular automaton.
+ */
 public abstract class Automaton {
     private Map<CellCoordinates, CellState> cells = new HashMap<>();
     private CellNeighbourhood neighboursStrategy;
@@ -19,11 +25,19 @@ public abstract class Automaton {
         this.stateFactory = stateFactory;
     }
 
+    /** setting map of coordinates as soon as we know the properties (e.g. width). Called by Automaton2Dim.
+     *
+     * @param cells
+     */
     //TODO this solution seems not to be so flawless, user can call it and fuck up everything
-    protected void setCells(Map<CellCoordinates, CellState> cells) {
+    void setCells(Map<CellCoordinates, CellState> cells) {
         this.cells = cells;
     }
 
+    /**
+     * defines next state of the board using current state. Returns Automaton with correct new state
+     * @return
+     */
     public Automaton nextState() {
         Automaton automaton = newInstance(stateFactory,neighboursStrategy);
         CellIterator currentStateIterator = cellIterator();
@@ -36,7 +50,7 @@ public abstract class Automaton {
             Set<CellCoordinates> neighboursCoords = neighboursStrategy.cellNeighbours(cell.getCoords());
             Set<Cell> neighbours = mapCoordinates(neighboursCoords);
 
-            CellState newCellState = nextCellState(cell.getState(), neighbours);
+            CellState newCellState = automaton.nextCellState(cell, neighbours);
             nextStateIterator.setState(newCellState);
         }
         return automaton;
@@ -58,10 +72,10 @@ public abstract class Automaton {
 
     protected abstract CellCoordinates nextCoordinates(CellCoordinates coords);
 
-    protected abstract CellState nextCellState(CellState currentState, Set<Cell> neighboursStates);
+    protected abstract CellState nextCellState(Cell currentState, Set<Cell> neighboursStates);
 
     private Set<Cell> mapCoordinates(Set<CellCoordinates> coords) {
-        Set<Cell> resultSet = new HashSet<>();
+        Set<Cell> resultSet = new LinkedHashSet<>();
         for(CellCoordinates cc : coords) {
             resultSet.add(new Cell(cells.get(cc), cc));
         }
@@ -101,7 +115,7 @@ public abstract class Automaton {
                 || neighboursStrategy.getClass() != automaton.neighboursStrategy.getClass())
             return false;
         CellIterator iterator = new CellIterator();
-        for(int i=0; i<cells.size(); i++) {
+        while(iterator.hasNext()) {
             Cell cell = iterator.next();
             if(!cells.get(cell.getCoords()).equals(automaton.cells.get(cell.getCoords())))
                 return false;

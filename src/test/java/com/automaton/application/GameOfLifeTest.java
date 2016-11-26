@@ -90,7 +90,7 @@ public class GameOfLifeTest {
         ));
 
         Assert.assertTrue("State of cell should be revived Yellow", gol.nextCellState(
-                QuadState.DEAD,
+                new Cell(QuadState.DEAD, new Coords2D(2,2)), //these coords doesn't matter, it only checks state
                 neighbours
         ).equals(QuadState.YELLOW));
     }
@@ -117,7 +117,7 @@ public class GameOfLifeTest {
         ));
 
         Assert.assertTrue("State of cell should be revived Red", gol.nextCellState(
-                QuadState.DEAD,
+                new Cell(QuadState.DEAD, new Coords2D(2,2)), //these coords doesn't matter, it only checks state,
                 neighbours
         ).equals(QuadState.RED));
     }
@@ -172,7 +172,8 @@ public class GameOfLifeTest {
                 new Cell(BinaryState.DEAD, new Coords2D(34,5))
         ));
 
-        CellState state = gol.nextCellState(BinaryState.ALIVE, neighbours);
+        CellState state = gol.nextCellState(new Cell(BinaryState.ALIVE, new Coords2D(2,2)), //these coords doesn't matter, it only checks state
+                neighbours);
 
         Assert.assertThat("CellState should be ALIVE", state, is(BinaryState.ALIVE));
     }
@@ -191,7 +192,8 @@ public class GameOfLifeTest {
                 new Cell(BinaryState.DEAD, new Coords2D(3,55))
         ));
 
-        CellState state = gol.nextCellState(BinaryState.ALIVE, neighbours);
+        CellState state = gol.nextCellState(new Cell(BinaryState.DEAD, new Coords2D(2,2)), //these coords doesn't matter, it only checks state
+                neighbours);
 
         Assert.assertThat("CellState should be ALIVE", state, is(BinaryState.DEAD));
     }
@@ -210,7 +212,8 @@ public class GameOfLifeTest {
                 new Cell(BinaryState.DEAD, new Coords2D(36,5))
         ));
 
-        CellState state = gol.nextCellState(BinaryState.ALIVE, neighbours);
+        CellState state = gol.nextCellState(new Cell(BinaryState.DEAD, new Coords2D(2,2)), //these coords doesn't matter, it only checks state
+                neighbours);
 
         Assert.assertThat("CellState should be ALIVE", state, is(BinaryState.DEAD));
     }
@@ -229,7 +232,8 @@ public class GameOfLifeTest {
                 new Cell(BinaryState.DEAD, new Coords2D(3,95))
         ));
 
-        CellState state = gol.nextCellState(BinaryState.DEAD, neighbours);
+        CellState state = gol.nextCellState(new Cell(BinaryState.ALIVE, new Coords2D(2,2)), //these coords doesn't matter, it only checks state
+                neighbours);
 
         Assert.assertThat("CellState should be ALIVE", state, is(BinaryState.ALIVE));
     }

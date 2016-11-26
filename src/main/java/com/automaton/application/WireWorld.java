@@ -34,7 +34,8 @@ public class WireWorld extends Automaton2Dim{
                 width);
     }
 
-    protected CellState nextCellState(CellState currentState, Set<Cell> neighboursStates) {
+    protected CellState nextCellState(Cell currentCell, Set<Cell> neighboursStates) {
+        CellState currentState = currentCell.getState();
         if(currentState == WireElectronState.ELECTRON_HEAD)
             return WireElectronState.ELECTRON_TAIL;
         else if(currentState == WireElectronState.ELECTRON_TAIL)

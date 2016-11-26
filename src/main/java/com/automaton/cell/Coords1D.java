@@ -3,34 +3,29 @@ package com.automaton.cell;
 /**
  * Created by lick on 11/10/16.
  */
-public class Coords2D implements CellCoordinates {
-    final private int x,y;
+public class Coords1D implements CellCoordinates {
+    final private int x;
 
-    public Coords2D(int x, int y) {
+    public Coords1D(int x) {
         this.x = x;
-        this.y = y;
     }
 
     public int getX() {
         return x;
     }
 
-    public int getY() {
-        return y;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
 
-        Coords2D coords2D = (Coords2D) o;
+        Coords1D coords2D = (Coords1D) o;
 
-        return getX() == coords2D.getX() && getY() == coords2D.getY();
+        return getX() == coords2D.getX();
 
     }
 
     @Override
     public int hashCode() {
-        return 31 * getX() + getY();
+        return 31 * getX();
     }
 }

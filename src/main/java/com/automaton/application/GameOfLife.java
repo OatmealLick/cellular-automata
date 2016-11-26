@@ -45,13 +45,15 @@ public class GameOfLife extends Automaton2Dim{
      *
      * For now method is hardcoded 23/3 beacuse I have no idea whatsoever
      * where should I pass rules to eventually ending up here
-     * @param currentState
+     * @param currentCell
      * @param neighboursStates
      * @return
      */
-    protected CellState nextCellState(CellState currentState, Set<Cell> neighboursStates) {
+    protected CellState nextCellState(Cell currentCell, Set<Cell> neighboursStates) {
         Set<Integer> surviveCases = new HashSet<>();
         Set<Integer> reviveCases = new HashSet<>();
+
+        CellState currentState = currentCell.getState();
 
         //TODO here comes hardcoded stuff
         surviveCases.add(2);
