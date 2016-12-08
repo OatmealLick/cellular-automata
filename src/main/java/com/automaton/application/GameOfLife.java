@@ -15,7 +15,7 @@ import java.util.*;
 public class GameOfLife extends Automaton2Dim{
     boolean quadMode;
 
-    GameOfLife(CellNeighbourhood neighboursStrategy,
+    public GameOfLife(CellNeighbourhood neighboursStrategy,
                        CellStateFactory stateFactory,
                        int height, int width, boolean quadMode) {
         super(neighboursStrategy, stateFactory, height, width);
