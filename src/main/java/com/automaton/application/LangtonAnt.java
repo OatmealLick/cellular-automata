@@ -12,7 +12,7 @@ import java.util.*;
 public class LangtonAnt extends Automaton2Dim{
     private boolean wrapping;
 
-    LangtonAnt(CellStateFactory stateFactory,
+    public LangtonAnt(CellStateFactory stateFactory,
                int height, int width,
                boolean wrapping) {
         super(new VonNeumanNeighbourhood(width, height, 1, wrapping), stateFactory, height, width);

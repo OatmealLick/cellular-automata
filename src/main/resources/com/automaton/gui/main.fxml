@@ -132,7 +132,10 @@
                         <Button fx:id="backToMapGenButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#backToMapGen" text="Back" />
                      </children>
                   </VBox>
-                  <VBox fx:id="simBox" visible="false" />
+                  <VBox fx:id="simBox" visible="false">
+                     <children>
+                        <Button fx:id="nextStateButton" mnemonicParsing="false" onAction="#nextState" text="Next State" />
+                     </children></VBox>
                </children>
             </VBox>
          </children></AnchorPane>

@@ -82,7 +82,7 @@ public abstract class Automaton {
         return resultSet;
     }
 
-    private class CellIterator implements Iterator<Cell>{
+    public class CellIterator implements Iterator<Cell>{
         private CellCoordinates currentCoordinates;
 
         CellIterator() {

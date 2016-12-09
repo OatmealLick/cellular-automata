@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class WireWorld extends Automaton2Dim{
 
-    WireWorld(CellStateFactory stateFactory,
+    public WireWorld(CellStateFactory stateFactory,
               int height, int width) {
         super(new MoorNeighbourhood(width, height, 1, false), stateFactory, height, width);
     }
