@@ -14,12 +14,14 @@ import java.util.*;
  */
 public class GameOfLife extends Automaton2Dim{
     boolean quadMode;
+    String rule;
 
     public GameOfLife(CellNeighbourhood neighboursStrategy,
                        CellStateFactory stateFactory,
-                       int height, int width, boolean quadMode) {
+                       int height, int width, boolean quadMode, String rule) {
         super(neighboursStrategy, stateFactory, height, width);
         this.quadMode = quadMode;
+        this.rule = rule;
     }
 
     public boolean isQuadMode() {
@@ -36,7 +38,8 @@ public class GameOfLife extends Automaton2Dim{
                 super.stateFactory,
                 height,
                 width,
-                quadMode);
+                quadMode,
+                rule);
 
     }
 
@@ -50,16 +53,11 @@ public class GameOfLife extends Automaton2Dim{
      * @return
      */
     protected CellState nextCellState(Cell currentCell, Set<Cell> neighboursStates) {
-        Set<Integer> surviveCases = new HashSet<>();
-        Set<Integer> reviveCases = new HashSet<>();
+        List<Set<Integer>> cases = parseRule(rule);
+        Set<Integer> surviveCases = cases.get(0);
+        Set<Integer> reviveCases = cases.get(1);
 
         CellState currentState = currentCell.getState();
-
-        //TODO here comes hardcoded stuff
-        surviveCases.add(2);
-        surviveCases.add(3);
-
-        reviveCases.add(3);
 
         if(quadMode) {
 

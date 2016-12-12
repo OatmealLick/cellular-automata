@@ -45,7 +45,8 @@ public class GameOfLifeTest {
                 new UniformStateFactory(QuadState.DEAD),
                 height,
                 width,
-                true
+                true,
+                "23/3"
         );
 
         automaton.insertStructure(state0);
@@ -55,7 +56,8 @@ public class GameOfLifeTest {
                 new UniformStateFactory(QuadState.DEAD),
                 height,
                 width,
-                true
+                true,
+                "23/3"
         );
 
 
@@ -75,7 +77,8 @@ public class GameOfLifeTest {
                 new UniformStateFactory(QuadState.DEAD),
                 height,
                 width,
-                true
+                true,
+                "23/3"
         );
 
         Set<Cell> neighbours = new HashSet<>(Arrays.asList(
@@ -102,7 +105,8 @@ public class GameOfLifeTest {
                 new UniformStateFactory(QuadState.DEAD),
                 height,
                 width,
-                true
+                true,
+                "23/3"
         );
 
         Set<Cell> neighbours = new HashSet<>(Arrays.asList(
@@ -136,7 +140,8 @@ public class GameOfLifeTest {
                 new UniformStateFactory(BinaryState.DEAD),
                 height,
                 width,
-                false
+                false,
+                "23/3"
         );
 
         automaton.insertStructure(map);
@@ -146,7 +151,8 @@ public class GameOfLifeTest {
                 new UniformStateFactory(BinaryState.DEAD),
                 height,
                 width,
-                false
+                false,
+                "23/3"
         );
 
         automatonAfterOneState.insertStructure(map2);
@@ -160,7 +166,7 @@ public class GameOfLifeTest {
 
     @Test
     public void cellStayingAlive() {
-        Automaton gol = new GameOfLife(null, new UniformStateFactory(BinaryState.ALIVE), height, width, false);
+        Automaton gol = new GameOfLife(null, new UniformStateFactory(BinaryState.ALIVE), height, width, false, "23/3");
         Set<Cell> neighbours = new HashSet<>(Arrays.asList(
                 new Cell(BinaryState.ALIVE, new Coords2D(3,5)),
                 new Cell(BinaryState.ALIVE, new Coords2D(4,5)),
@@ -180,7 +186,7 @@ public class GameOfLifeTest {
 
     @Test
     public void cellDyingOfCrowd() {
-        GameOfLife gol = new GameOfLife(null, new UniformStateFactory(BinaryState.ALIVE), height, width, false);
+        GameOfLife gol = new GameOfLife(null, new UniformStateFactory(BinaryState.ALIVE), height, width, false, "23/3");
         Set<Cell> neighbours = new HashSet<>(Arrays.asList(
                 new Cell(BinaryState.ALIVE, new Coords2D(32,5)),
                 new Cell(BinaryState.ALIVE, new Coords2D(33,5)),
@@ -200,7 +206,7 @@ public class GameOfLifeTest {
 
     @Test
     public void cellDyingOfLoneliness() {
-        GameOfLife gol = new GameOfLife(null, new UniformStateFactory(BinaryState.ALIVE), height,width, false);
+        GameOfLife gol = new GameOfLife(null, new UniformStateFactory(BinaryState.ALIVE), height,width, false, "23/3");
         Set<Cell> neighbours = new HashSet<>(Arrays.asList(
                 new Cell(BinaryState.DEAD, new Coords2D(3,35)),
                 new Cell(BinaryState.DEAD, new Coords2D(3,53)),
@@ -220,7 +226,7 @@ public class GameOfLifeTest {
 
     @Test
     public void cellBeingRevivedDueToMiracle() {
-        GameOfLife gol = new GameOfLife(null, new UniformStateFactory(BinaryState.ALIVE), height, width, false);
+        GameOfLife gol = new GameOfLife(null, new UniformStateFactory(BinaryState.ALIVE), height, width, false, "23/3");
         Set<Cell> neighbours = new HashSet<>(Arrays.asList(
                 new Cell(BinaryState.ALIVE, new Coords2D(31,5)),
                 new Cell(BinaryState.ALIVE, new Coords2D(3,25)),

@@ -267,7 +267,8 @@ public class Controller {
                         factory,
                         height,
                         width,
-                        false
+                        false,
+                        ruleTextField.getText()
                 );
                 break;
             case 1: // Game of Life - QuadYOLO
@@ -293,7 +294,8 @@ public class Controller {
                         factory,
                         height,
                         width,
-                        true
+                        true,
+                        ruleTextField.getText()
                 );
                 break;
             case 2: // Langton Ant

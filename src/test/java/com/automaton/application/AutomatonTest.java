@@ -31,7 +31,8 @@ public class AutomatonTest {
                     new UniformStateFactory(BinaryState.DEAD),
                     height,
                     width,
-                    false
+                    false,
+                    "23/3"
 
             );
             automatons[i].insertStructure(map);
