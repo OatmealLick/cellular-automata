@@ -12,14 +12,15 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
 
 import java.util.*;
+import static org.mockito.Mockito.*;
 
 
 /**
  * Created by lick on 11/11/16.
  */
 public class GameOfLifeTest {
-    int height=34;
-    int width=34;
+    int height=3;
+    int width=3;
 
     @Test
     public void quadLifeNextStateTest1DifferentColors() {

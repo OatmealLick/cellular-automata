@@ -60,21 +60,20 @@ public class LangtonAntTest {
 
         computedState.insertStructure(map);
 
-
         Automaton state2 = state1.nextState();
         LangtonCell one2 = new LangtonCell(BinaryState.DEAD);
-        one2.getAntStates().add(AntState.NORTH);
+        one2.getAntStates().add(AntState.SOUTH);
 
         LangtonCell two2 = new LangtonCell(BinaryState.DEAD);
-        two2.getAntStates().add(AntState.SOUTH);
+        two2.getAntStates().add(AntState.NORTH);
 
         LangtonCell three2 = new LangtonCell(BinaryState.ALIVE);
         LangtonCell four2 = new LangtonCell(BinaryState.ALIVE);
         LangtonCell five2 = new LangtonCell(BinaryState.ALIVE);
 
         Map<CellCoordinates, CellState> map2 = new HashMap<>();
-        map2.put(new Coords2D(0,2), one2);
-        map2.put(new Coords2D(2,0), two2);
+        map2.put(new Coords2D(0,0), one2);
+        map2.put(new Coords2D(2,2), two2);
         map2.put(new Coords2D(0,1), three2);
         map2.put(new Coords2D(1,1), four2);
         map2.put(new Coords2D(2,1), five2);
@@ -162,13 +161,13 @@ public class LangtonAntTest {
         );
 
         LangtonCell one = new LangtonCell(BinaryState.DEAD);
-        one.getAntStates().add(AntState.NORTH);
+        one.getAntStates().add(AntState.SOUTH);
 
         LangtonCell two = new LangtonCell(BinaryState.DEAD);
         two.getAntStates().add(AntState.WEST);
 
         Map<CellCoordinates, CellState> map = new HashMap<>();
-        map.put(new Coords2D(0,0), one);
+        map.put(new Coords2D(0,3), one);
         map.put(new Coords2D(4,4), two);
 
         computedState.insertStructure(map);

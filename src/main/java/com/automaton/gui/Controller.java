@@ -482,9 +482,9 @@ public class Controller {
 
                     } else if (cell.getCoords().equals(new Coords1D(coordX))) {
                         CellState state = cell.getState();
-                        System.out.println("state: "+state);
+
                         //Elementary
-                        System.out.println("coordY: "+coordY);
+
                         if(coordY==0) {
                             //System.out.println("Clicked");
                             if (state == BinaryState.DEAD) {
@@ -626,8 +626,8 @@ public class Controller {
             ytr[0] = baseY + offset;
             ytr[1] = baseY + cellHeight - offset;
             ytr[2] = baseY+ cellHeight/2;
-        }
-        else if (antState.equals(AntState.NORTH)) {
+        }//TODO KURWA NIE
+        else if (antState.equals(AntState.SOUTH)) {
             xtr[0] = baseX + offset;
             xtr[1] = baseX + cellWidth - offset;
             xtr[2] = baseX  + cellWidth/2;
@@ -635,7 +635,7 @@ public class Controller {
             ytr[1] = baseY + cellHeight - offset;
             ytr[2] = baseY;
         }
-        else if (antState.equals(AntState.SOUTH)) {
+        else if (antState.equals(AntState.NORTH)) {
             xtr[0] = baseX + offset;
             xtr[1] = baseX + cellWidth - offset;
             xtr[2] = baseX + cellWidth/2;
