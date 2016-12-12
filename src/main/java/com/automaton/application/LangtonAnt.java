@@ -124,9 +124,9 @@ public class LangtonAnt extends Automaton2Dim{
                                 antStatesSet.add(AntState.WEST);
                             break;
                         case EAST:
-                            if(neighbourBoardState==BinaryState.DEAD && isMaxY)
+                            if(neighbourBoardState==BinaryState.DEAD && isMinY)
                                 antStatesSet.add(AntState.SOUTH);
-                            else if(neighbourBoardState==BinaryState.ALIVE && isMinY)
+                            else if(neighbourBoardState==BinaryState.ALIVE && isMaxY)
                                 antStatesSet.add(AntState.NORTH);
                             break;
                         case SOUTH:
@@ -136,9 +136,9 @@ public class LangtonAnt extends Automaton2Dim{
                                 antStatesSet.add(AntState.EAST);
                             break;
                         case WEST:
-                            if(neighbourBoardState==BinaryState.DEAD && isMinY)
+                            if(neighbourBoardState==BinaryState.DEAD && isMaxY)
                                 antStatesSet.add(AntState.NORTH);
-                            else if(neighbourBoardState==BinaryState.ALIVE && isMaxY)
+                            else if(neighbourBoardState==BinaryState.ALIVE && isMinY)
                                 antStatesSet.add(AntState.SOUTH);
                             break;
                     }

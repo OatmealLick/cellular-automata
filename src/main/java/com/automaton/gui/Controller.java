@@ -239,6 +239,9 @@ public class Controller {
         CellStateFactory factory;
         if(rangeTextField.getText().equals(""))
             rangeTextField.setText(1+"");
+
+
+
         switch (gameChoiceBox.getSelectionModel().getSelectedIndex()) {
             case 0: //Game of Life
 
@@ -300,7 +303,7 @@ public class Controller {
                         factory,
                         height,
                         width,
-                        true
+                        wrappingChoiceBox.getValue()
                 );
                 break;
             case 3: // Wireworld 
@@ -313,7 +316,6 @@ public class Controller {
                 );
 
                 Automaton.CellIterator cellIterator = currAutomaton.cellIterator();
-                System.out.println(gameChoiceBox.getSelectionModel().getSelectedIndex());
                 while (cellIterator.hasNext()) {
                     gc.setFill(Color.DARKGREY);
                     Cell cell = cellIterator.next();
@@ -328,14 +330,12 @@ public class Controller {
 
         mainCanvas.setOnMouseClicked(mouseEvent -> {
 
-            System.out.println(mouseEvent.getX());
             if(state==State.SIM) {
                 double x = mouseEvent.getX(), y = mouseEvent.getY();
                 
                 int coordX = (int)(x/(cellWidth+offset)), coordY = (int)(y/(cellHeight+offset));
 
                 Automaton.CellIterator cellIterator = currAutomaton.cellIterator();
-                System.out.println(gameChoiceBox.getSelectionModel().getSelectedIndex());
                 while (cellIterator.hasNext()) {
                     Cell cell = cellIterator.next();
                     if(cell.getCoords().equals(new Coords2D(coordX, coordY))) {
@@ -349,6 +349,7 @@ public class Controller {
                                     cellIterator.setState(BinaryState.DEAD);
                                     gc.setFill(Color.FLORALWHITE);
                                 }
+                                drawCell(coordX, coordY);
                                 break;
                             case 1: //Game of Life - Quadruple
                                 if (state == QuadState.DEAD) {
@@ -368,8 +369,81 @@ public class Controller {
                                     cellIterator.setState(QuadState.DEAD);
                                 }
 
+                                drawCell(coordX, coordY);
                                 break;
                             case 2: // Langton Ant
+                                LangtonCell langtonCell = (LangtonCell) state;
+                                BinaryState binaryState = langtonCell.getCellState();
+                                boolean isThereAnAnt = langtonCell.getAntStates().size()>0;
+
+                                LangtonCell newLangtonCell;
+                                // alive - dark, dead - white
+                                if(isThereAnAnt) {
+                                    AntState antState = langtonCell.getAntStates().get(0);
+                                    if(binaryState == BinaryState.ALIVE && antState == AntState.NORTH) {
+                                        newLangtonCell = new LangtonCell(binaryState);
+                                        newLangtonCell.getAntStates().add(AntState.EAST);
+                                        cellIterator.setState(newLangtonCell);
+                                        gc.setFill(Color.DARKGREY);
+                                    } else if(binaryState == BinaryState.ALIVE && antState == AntState.EAST) {
+                                        gc.setFill(Color.DARKGREY);
+                                        newLangtonCell = new LangtonCell(binaryState);
+                                        newLangtonCell.getAntStates().add(AntState.SOUTH);
+                                        cellIterator.setState(newLangtonCell);
+                                    } else if(binaryState == BinaryState.ALIVE && antState == AntState.SOUTH) {
+                                        gc.setFill(Color.DARKGREY);
+                                        newLangtonCell = new LangtonCell(binaryState);
+                                        newLangtonCell.getAntStates().add(AntState.WEST);
+                                        cellIterator.setState(newLangtonCell);
+                                    } else if(binaryState == BinaryState.ALIVE && antState == AntState.WEST) {
+                                        gc.setFill(Color.DARKGREY);
+                                        newLangtonCell = new LangtonCell(binaryState);
+                                        cellIterator.setState(newLangtonCell);
+                                    } else if(binaryState == BinaryState.DEAD && antState == AntState.NORTH) {
+                                        newLangtonCell = new LangtonCell(binaryState);
+                                        newLangtonCell.getAntStates().add(AntState.EAST);
+                                        cellIterator.setState(newLangtonCell);
+                                        gc.setFill(Color.FLORALWHITE);
+                                    } else if(binaryState == BinaryState.DEAD && antState == AntState.EAST) {
+                                        newLangtonCell = new LangtonCell(binaryState);
+                                        newLangtonCell.getAntStates().add(AntState.SOUTH);
+                                        cellIterator.setState(newLangtonCell);
+                                        gc.setFill(Color.FLORALWHITE);
+                                    } else if(binaryState == BinaryState.DEAD && antState == AntState.SOUTH) {
+                                        newLangtonCell = new LangtonCell(binaryState);
+                                        newLangtonCell.getAntStates().add(AntState.WEST);
+                                        cellIterator.setState(newLangtonCell);
+                                        gc.setFill(Color.FLORALWHITE);
+                                    } else  { // if(binaryState == BinaryState.DEAD && antState == AntState.WEST)
+                                        newLangtonCell = new LangtonCell(BinaryState.ALIVE);
+                                        newLangtonCell.getAntStates().add(AntState.NORTH);
+                                        cellIterator.setState(newLangtonCell);
+                                        gc.setFill(Color.DARKGREY);
+                                    }
+                                } else {
+                                    if(binaryState == BinaryState.ALIVE) {
+                                        newLangtonCell = new LangtonCell(BinaryState.DEAD);
+                                        cellIterator.setState(newLangtonCell);
+                                        gc.setFill(Color.FLORALWHITE);
+                                    }
+                                    else {
+                                        //gc.setFill(Color.DARKGREY);
+                                        newLangtonCell = new LangtonCell(binaryState);
+                                        newLangtonCell.getAntStates().add(AntState.NORTH);
+                                        cellIterator.setState(newLangtonCell);
+                                        //binaryState = BinaryState.ALIVE;
+                                        //gc.setFill(Color.DARKGREY);
+                                        //langtonCell.getAntStates().add(AntState.NORTH);
+
+                                    }
+                                }
+
+                                drawCell(coordX, coordY);
+                                System.out.println("bin State: "+newLangtonCell.getCellState());
+                                if(newLangtonCell.getAntStates().size()>0) {
+                                    drawAnt(coordX, coordY, newLangtonCell.getAntStates().get(0));
+                                    System.out.println("ant State: "+newLangtonCell.getAntStates().get(0));
+                                }
                                 break;
                             case 3: // Wireworld
                                 if (state == WireElectronState.VOID) {
@@ -385,10 +459,11 @@ public class Controller {
                                     gc.setFill(Color.DARKGREY);
                                     cellIterator.setState(WireElectronState.VOID);
                                 }
+                                drawCell(coordX, coordY);
                                 break;
 
                         }
-                        drawCell(coordX, coordY);
+
                     }
 
                 }
@@ -396,7 +471,22 @@ public class Controller {
         });
     }
 
-    //TODO BACK BUTTON WITH DRAWING CANVAS AGAIN
+    @FXML
+    public void backToParams(ActionEvent event) {
+        state = State.PARAMS;
+        toParamMenu();
+        clearCanvas();
+
+        // painting board i
+        Automaton.CellIterator cellIterator = currAutomaton.cellIterator();
+
+        while (cellIterator.hasNext()) {
+            gc.setFill(Color.FLORALWHITE);
+            Cell cell = cellIterator.next();
+            Coords2D coords2D = (Coords2D) cell.getCoords();
+            drawCell(coords2D.getX(), coords2D.getY());
+        }
+    }
 
     @FXML
     private void nextState(ActionEvent event) {
@@ -432,6 +522,21 @@ public class Controller {
                     break;
                 case 2: // Langton Ant
                     Coords2D coords2D3 = (Coords2D)cell.getCoords();
+
+                    if(((LangtonCell)cell.getState()).getCellState()== BinaryState.DEAD)
+                        gc.setFill(Color.FLORALWHITE);
+                    else
+                        gc.setFill(Color.DARKGREY);
+
+                    drawCell(coords2D3.getX(), coords2D3.getY());
+
+                    LangtonCell langtonCell = (LangtonCell) state;
+
+                    for (AntState antState : langtonCell.getAntStates()) {
+                        drawAnt(coords2D3.getX(), coords2D3.getY(), antState);
+                    }
+
+                    
                     break;
                 case 3: // Wireworld
                     Coords2D coords2D4 = (Coords2D)cell.getCoords();
@@ -459,6 +564,56 @@ public class Controller {
                 cellHeight,
                 cellWidth*3/5,
                 cellHeight*3/5);
+    }
+
+    private void drawAnt(double startX, double startY, AntState antState) {
+        double[] xtr = new double[3], ytr = new double[3];
+        double baseX = offset + startX * (cellWidth+offset);
+        double baseY = offset + startY * (cellHeight+offset);
+
+        if (antState.equals(AntState.EAST)) {
+            xtr[0] = baseX + offset;
+            xtr[1] = baseX + offset;
+            xtr[2] = baseX  + cellWidth;
+            ytr[0] = baseY + offset;
+            ytr[1] = baseY + cellHeight - offset;
+            ytr[2] = baseY+ cellHeight/2;
+        }
+        else if (antState.equals(AntState.WEST)) {
+            xtr[0] = baseX + cellWidth - offset;
+            xtr[1] = baseX + cellWidth - offset;
+            xtr[2] = baseX;
+            ytr[0] = baseY + offset;
+            ytr[1] = baseY + cellHeight - offset;
+            ytr[2] = baseY+ cellHeight/2;
+        }
+        else if (antState.equals(AntState.NORTH)) {
+            xtr[0] = baseX + offset;
+            xtr[1] = baseX + cellWidth - offset;
+            xtr[2] = baseX  + cellWidth/2;
+            ytr[0] = baseY + cellHeight - offset;
+            ytr[1] = baseY + cellHeight - offset;
+            ytr[2] = baseY;
+        }
+        else if (antState.equals(AntState.SOUTH)) {
+            xtr[0] = baseX + offset;
+            xtr[1] = baseX + cellWidth - offset;
+            xtr[2] = baseX + cellWidth/2;
+            ytr[0] = baseY + offset;
+            ytr[1] = baseY + offset;
+            ytr[2] = baseY+ cellHeight;
+
+        }
+        gc.setFill(Color.MEDIUMVIOLETRED);
+        gc.fillPolygon(xtr, ytr, xtr.length);
+        gc.setFill(Color.FLORALWHITE);
+
+        /*gc.fillRoundRect(offset+startX*(cellWidth+offset),
+                offset+startY*(cellHeight+offset),
+                cellWidth,
+                cellHeight,
+                cellWidth*3/5,
+                cellHeight*3/5);*/
     }
 
     private void clearCanvas() {

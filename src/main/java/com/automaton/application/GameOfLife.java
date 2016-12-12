@@ -6,7 +6,7 @@ import com.automaton.cell.CellNeighbourhood;
 import com.automaton.states.CellState;
 import com.automaton.cell.CellStateFactory;
 import com.automaton.states.QuadState;
-
+import java.lang.String.*;
 import java.util.*;
 
 /**
@@ -127,5 +127,21 @@ public class GameOfLife extends Automaton2Dim{
         }
 
         return currentState;
+    }
+
+    private List<Set<Integer>> parseRule (String rule) {
+        String[] parts = rule.split("/");
+        String part1 = parts[0];
+        String part2 = parts[1];
+
+        Set<Integer> surviveCases = new HashSet<>();
+        for(Character c : part1.toCharArray())
+            surviveCases.add(Integer.parseInt(c.toString()));
+
+        Set<Integer> reviveCases = new HashSet<>();
+        for(Character c : part2.toCharArray())
+            reviveCases.add(Integer.parseInt(c.toString()));
+
+        return new ArrayList<>(Arrays.asList(surviveCases, reviveCases));
     }
 }

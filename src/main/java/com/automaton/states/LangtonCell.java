@@ -38,8 +38,7 @@ public class LangtonCell implements CellState {
 
         LangtonCell that = (LangtonCell) o;
 
-        if (cellState != that.cellState) return false;
-        return antStates.equals(that.antStates);
+        return that.cellState == cellState && antStates.equals(that.antStates);
 
     }
 
