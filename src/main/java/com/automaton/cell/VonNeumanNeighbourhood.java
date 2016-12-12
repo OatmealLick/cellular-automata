@@ -21,7 +21,7 @@ public class VonNeumanNeighbourhood implements CellNeighbourhood{
      * Von Neuman's neighbourhood means four adjacent cells following world direction pattern (N E S W).
      * For now only implemented range = 1
      *
-     * TODO any given range
+     *
      *
      * @param coords
      * @return

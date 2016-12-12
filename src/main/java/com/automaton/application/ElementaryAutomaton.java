@@ -15,7 +15,7 @@ public class ElementaryAutomaton extends Automaton1Dim {
     private byte rule;
     private BinaryState[] ruleOutcomes = new BinaryState[8];
 
-    ElementaryAutomaton(CellStateFactory stateFactory,
+    public ElementaryAutomaton(CellStateFactory stateFactory,
                         int width,
                         byte rule) {
         super(new ElementaryNeighbourhood(width), stateFactory, width);
@@ -42,9 +42,7 @@ public class ElementaryAutomaton extends Automaton1Dim {
     protected CellState nextCellState(Cell cell, Set<Cell> neighboursStates) {
         int currentCellX = ((Coords1D)cell.getCoords()).getX();
 
-        /*TODO throw me out when done if(currentCellX==0 || currentCellX==super.getWidth()-1)
-            return BinaryState.ALIVE;
-        else*/ if(neighboursStates.size()==2) {
+        if(neighboursStates.size()==2) {
             // left case
             if(currentCellX==0) {
                 Set<Cell> helperSet = new LinkedHashSet<>();

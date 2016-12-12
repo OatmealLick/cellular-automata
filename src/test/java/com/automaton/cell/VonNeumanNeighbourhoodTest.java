@@ -94,7 +94,6 @@ public class VonNeumanNeighbourhoodTest {
 
         boolean result = true;
 
-        //TODO check if it is ok
         // top bottom left right
         if(!set.contains(new Coords2D(1,99))) result = false;
         if(!set.contains(new Coords2D(97,99))) result = false;

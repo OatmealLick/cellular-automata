@@ -1,9 +1,6 @@
 package com.automaton.gui;
 
-import com.automaton.application.Automaton;
-import com.automaton.application.GameOfLife;
-import com.automaton.application.LangtonAnt;
-import com.automaton.application.WireWorld;
+import com.automaton.application.*;
 import com.automaton.cell.*;
 import com.automaton.cell.Cell;
 import com.automaton.states.*;
@@ -60,7 +57,7 @@ public class Controller {
 
     private State state;
 
-    private int height = 20, width = 20;
+    private int height = 20, width = 20, elementaryStepCounter = 0;
     private double cellHeight, cellWidth, offset;
 
     private Automaton currAutomaton;
@@ -112,7 +109,7 @@ public class Controller {
 
         gameChoiceBox.getSelectionModel().selectFirst();
 
-        neighbourhoodChoiceBox.getItems().addAll("Moor", "Von Neumann");
+
         wrappingChoiceBox.getItems().addAll(true, false);
         wrappingChoiceBox.getSelectionModel().selectFirst();
         //quadstateChoiceBox.getItems().addAll(true, false);
@@ -137,11 +134,12 @@ public class Controller {
         clearCanvas();
 
         try {
-            // TODO throw out when tests are over - start
+
+            // setting standard rules for Conway's Game of Life
             if(heightTextField.getText().equals("") && widthTextField.getText().equals("")) {
                 height = 20;
                 width = 20;
-            } else { // TODO end
+            } else {
                 height = Integer.parseInt(heightTextField.getText());
                 width = Integer.parseInt(widthTextField.getText());
             }
@@ -177,48 +175,56 @@ public class Controller {
 
         toParamMenu();
 
-        //neighbourhoodChoiceBox.getItems().removeAll();
+        neighbourhoodChoiceBox.getItems().removeAll();
 
         switch (gameChoiceBox.getSelectionModel().getSelectedIndex()) {
             case 0: // Game of Life
+                neighbourhoodChoiceBox.getItems().addAll("Moor", "Von Neumann");
                 neighbourhoodChoiceBox.setDisable(false);
                 neighbourhoodChoiceBox.getSelectionModel().selectFirst();
                 ruleTextField.setDisable(false);
-                ruleTextField.setPromptText("np. \"23/3\"");
-                //quadstateChoiceBox.setDisable(true);
+                ruleTextField.setPromptText("23/3");
                 wrappingChoiceBox.setDisable(false);
                 rangeTextField.setDisable(false);
                 break;
             case 1: // Game of Life - QuadState
+                neighbourhoodChoiceBox.getItems().addAll("Moor", "Von Neumann");
                 neighbourhoodChoiceBox.setDisable(false);
                 neighbourhoodChoiceBox.getSelectionModel().selectFirst();
                 ruleTextField.setDisable(true);
                 ruleTextField.setText("23/3");
-                //quadstateChoiceBox.setDisable(false);
                 wrappingChoiceBox.setDisable(false);
                 rangeTextField.setDisable(false);
                 break;
             case 2: // Langton Ant
+                neighbourhoodChoiceBox.getItems().addAll("Moor", "Von Neumann");
                 neighbourhoodChoiceBox.getSelectionModel().select(1);
                 neighbourhoodChoiceBox.setDisable(true);
                 ruleTextField.setDisable(true);
                 ruleTextField.setPromptText("---");
-                //quadstateChoiceBox.setDisable(true);
                 wrappingChoiceBox.setDisable(false);
                 rangeTextField.setDisable(true);
                 rangeTextField.setPromptText("---");
                 break;
             case 3: // Wireworld
+                neighbourhoodChoiceBox.getItems().addAll("Moor", "Von Neumann");
                 neighbourhoodChoiceBox.getSelectionModel().select(0);
                 neighbourhoodChoiceBox.setDisable(true);
                 ruleTextField.setDisable(true);
                 ruleTextField.setPromptText("---");
-                //quadstateChoiceBox.setDisable(true);
                 wrappingChoiceBox.setDisable(true);
                 rangeTextField.setDisable(true);
                 rangeTextField.setPromptText("---");
                 break;
-            case 4:
+            case 4: // Elementary
+                neighbourhoodChoiceBox.getItems().addAll("Elementary Neighbourhood");
+                neighbourhoodChoiceBox.getSelectionModel().select(0);
+                neighbourhoodChoiceBox.setDisable(true);
+                rangeTextField.setDisable(true);
+                rangeTextField.setPromptText("---");
+                wrappingChoiceBox.setDisable(true);
+                ruleTextField.setDisable(false);
+                ruleTextField.setPromptText("30");
                 break;
         }
 
@@ -240,7 +246,10 @@ public class Controller {
         if(rangeTextField.getText().equals(""))
             rangeTextField.setText(1+"");
 
-
+        if(ruleTextField.getText().equals("") && gameChoiceBox.getSelectionModel().isSelected(0))
+            ruleTextField.setText("23/3");
+        else if (ruleTextField.getText().equals("") && gameChoiceBox.getSelectionModel().isSelected(4))
+            ruleTextField.setText("30");
 
         switch (gameChoiceBox.getSelectionModel().getSelectedIndex()) {
             case 0: //Game of Life
@@ -326,6 +335,13 @@ public class Controller {
                 }
 
                 break;
+            case 4: //Elementary
+                elementaryStepCounter=0;
+                factory = new UniformStateFactory(BinaryState.DEAD);
+
+                currAutomaton = new ElementaryAutomaton(
+                        factory, width, Byte.parseByte(ruleTextField.getText())
+                );
 
 
         }
@@ -341,6 +357,7 @@ public class Controller {
                 while (cellIterator.hasNext()) {
                     Cell cell = cellIterator.next();
                     if(cell.getCoords().equals(new Coords2D(coordX, coordY))) {
+                        System.out.println("X: "+coordX+", Y: "+coordY);
                         CellState state = cell.getState();
                         switch (gameChoiceBox.getSelectionModel().getSelectedIndex()) {
                             case 0: //Game of Life
@@ -441,10 +458,8 @@ public class Controller {
                                 }
 
                                 drawCell(coordX, coordY);
-                                System.out.println("bin State: "+newLangtonCell.getCellState());
                                 if(newLangtonCell.getAntStates().size()>0) {
                                     drawAnt(coordX, coordY, newLangtonCell.getAntStates().get(0));
-                                    System.out.println("ant State: "+newLangtonCell.getAntStates().get(0));
                                 }
                                 break;
                             case 3: // Wireworld
@@ -463,9 +478,24 @@ public class Controller {
                                 }
                                 drawCell(coordX, coordY);
                                 break;
-
                         }
 
+                    } else if (cell.getCoords().equals(new Coords1D(coordX))) {
+                        CellState state = cell.getState();
+                        System.out.println("state: "+state);
+                        //Elementary
+                        System.out.println("coordY: "+coordY);
+                        if(coordY==0) {
+                            //System.out.println("Clicked");
+                            if (state == BinaryState.DEAD) {
+                                cellIterator.setState(BinaryState.ALIVE);
+                                gc.setFill(Color.CHOCOLATE);
+                            } else {
+                                cellIterator.setState(BinaryState.DEAD);
+                                gc.setFill(Color.FLORALWHITE);
+                            }
+                            drawCell(coordX, coordY);
+                        }
                     }
 
                 }
@@ -482,16 +512,16 @@ public class Controller {
         // painting board i
         Automaton.CellIterator cellIterator = currAutomaton.cellIterator();
 
-        while (cellIterator.hasNext()) {
-            gc.setFill(Color.FLORALWHITE);
-            Cell cell = cellIterator.next();
-            Coords2D coords2D = (Coords2D) cell.getCoords();
-            drawCell(coords2D.getX(), coords2D.getY());
-        }
+        for(int i=0; i<width; i++)
+            for(int j=0; j<height; j++) {
+                gc.setFill(Color.FLORALWHITE);
+                drawCell(i,j);
+            }
     }
 
     @FXML
     private void nextState(ActionEvent event) {
+        ++elementaryStepCounter;
         currAutomaton = currAutomaton.nextState();
         Automaton.CellIterator cellIterator = currAutomaton.cellIterator();
         while (cellIterator.hasNext()) {
@@ -553,10 +583,18 @@ public class Controller {
                     }
                     drawCell(coords2D4.getX(), coords2D4.getY());
                     break;
+
+                case 4: // Elementary
+                    Coords1D coords1D = (Coords1D)cell.getCoords();
+                    if(state==BinaryState.DEAD) {
+                        gc.setFill(Color.FLORALWHITE);
+                    } else  {
+                        gc.setFill(Color.CHOCOLATE);
+                    }
+                    drawCell(coords1D.getX(), elementaryStepCounter);
+                    break;
             }
-
         }
-
     }
 
     private void drawCell(double startX, double startY) {

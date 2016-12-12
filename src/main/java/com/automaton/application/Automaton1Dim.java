@@ -26,7 +26,6 @@ public abstract class Automaton1Dim extends Automaton {
         this.width=width;
     }
 
-    // FIXME IM ADDING GETTERS HERE, IS THERE WORKAROUND BESIDES PROTECTED WIDTH & HEIGHT?
     public int getWidth() {
         return width;
     }

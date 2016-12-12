@@ -50,21 +50,8 @@ public class LangtonAnt extends Automaton2Dim{
                 resultLangtonCell.setCellState(BinaryState.DEAD);
         }
 
-        // TODO NOW WE HAVE CELL NOT CELLSTATE NO NEED TO DO HALF OF THINGS HERE
-        /*Set<Integer> xCoords = new HashSet<>();
-        Set<Integer> yCoords = new HashSet<>();*/
         Coords2D currentCoords = (Coords2D) currentCell.getCoords();
         int currentCellXCoord = currentCoords.getX(), currentCellYCoord = currentCoords.getY();
-        /*for(Cell cell : neighboursStates) {
-            coords = (Coords2D)cell.getCoords();
-            if(xCoords.contains(coords.getX())) currentCellXCoord = coords.getX();
-            else xCoords.add(coords.getX());
-            if(yCoords.contains(coords.getY())) currentCellYCoord = coords.getY();
-            else yCoords.add(coords.getY());
-        }*/
-
-        // let's compute maximum and minimum x & y to determine position relatively
-        // to our given cell
         int maxX=-1, maxY=-1, minX=Integer.MAX_VALUE, minY=Integer.MAX_VALUE;
 
         if(!wrapping) {

@@ -29,7 +29,6 @@ public abstract class Automaton {
      *
      * @param cells
      */
-    //TODO this solution seems not to be so flawless, user can call it and fuck up everything
     void setCells(Map<CellCoordinates, CellState> cells) {
         this.cells = cells;
     }

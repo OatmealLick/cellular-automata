@@ -64,8 +64,6 @@ public class GameOfLife extends Automaton2Dim{
             surviveCases = new HashSet<>(Arrays.asList(2,3));
             reviveCases = new HashSet<>(Arrays.asList(3));
 
-
-            //TODO I'm gonna assume it's 23/3 for quadlife
             Map<QuadState, Integer> neighboursColors = new HashMap<>();
             int neighboursAlive = 0;
             for(Cell cell: neighboursStates) {
