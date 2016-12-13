@@ -8,6 +8,10 @@ import java.util.Map;
 /**
  * Created by lick on 11/12/16.
  */
+
+/**
+ * GeneralStateFactory is used do initialise map with custom state of the board
+ */
 public class GeneralStateFactory implements CellStateFactory {
     private Map<CellCoordinates, CellState> map = new HashMap<>();
 

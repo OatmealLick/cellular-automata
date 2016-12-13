@@ -9,6 +9,13 @@ import java.util.Map;
 /**
  * Created by lick on 11/11/16.
  */
+
+/**
+ * Automaton extension providing proper handling of two dimensional cellular automata
+ *
+ * @see Automaton
+ * @see GameOfLife
+ */
 public abstract class Automaton2Dim extends Automaton {
     private int height, width;
 

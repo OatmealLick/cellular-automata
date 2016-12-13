@@ -6,6 +6,10 @@ import java.util.Set;
 /**
  * Created by lick on 11/10/16.
  */
+/**
+ * Von Neuman's neighbourhood means four adjacent cells following world direction pattern (N E S W), assuming
+ * range is 1.
+ */
 public class VonNeumanNeighbourhood implements CellNeighbourhood{
     private int width, height, range;
     private boolean wrapping;
@@ -17,15 +21,6 @@ public class VonNeumanNeighbourhood implements CellNeighbourhood{
         this.wrapping = wrapping;
     }
 
-    /**
-     * Von Neuman's neighbourhood means four adjacent cells following world direction pattern (N E S W).
-     * For now only implemented range = 1
-     *
-     *
-     *
-     * @param coords
-     * @return
-     */
     @Override
     public Set<CellCoordinates> cellNeighbours(CellCoordinates coords) {
         Set<CellCoordinates> resultSet = new HashSet<>();

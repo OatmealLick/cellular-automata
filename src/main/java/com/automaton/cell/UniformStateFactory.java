@@ -5,6 +5,10 @@ import com.automaton.states.CellState;
 /**
  * Created by lick on 11/12/16.
  */
+
+/**
+ * UniformStateFactory specifies one state for every cell to be initialised
+ */
 public class UniformStateFactory implements CellStateFactory {
     private CellState state;
 

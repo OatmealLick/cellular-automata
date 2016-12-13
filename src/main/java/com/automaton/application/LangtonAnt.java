@@ -9,6 +9,10 @@ import java.util.*;
 /**
  * Created by lick on 11/11/16.
  */
+
+/**
+ * Langton Ant simulator.
+ */
 public class LangtonAnt extends Automaton2Dim{
     private boolean wrapping;
 
@@ -30,14 +34,7 @@ public class LangtonAnt extends Automaton2Dim{
                 wrapping);
     }
 
-    /**
-     * nextCellState determines next cell state judging by states of neighbours and itself.
-     *
-     *
-     * @param currentCell
-     * @param neighboursStates
-     * @return
-     */
+    @Override
     protected CellState nextCellState(Cell currentCell, Set<Cell> neighboursStates) {
         LangtonCell currentLangtonCell = (LangtonCell)currentCell.getState();
         LangtonCell resultLangtonCell = new LangtonCell(currentLangtonCell.getCellState());
@@ -132,7 +129,6 @@ public class LangtonAnt extends Automaton2Dim{
 
                 }
                 resultLangtonCell.getAntStates().addAll(antStatesSet);
-                //resultLangtonCell.setAntStates(new ArrayList<>(antStatesSet));
             }
         }
 

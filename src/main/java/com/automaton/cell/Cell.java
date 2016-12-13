@@ -6,6 +6,13 @@ import com.automaton.states.CellState;
 /**
  * Created by lick on 11/10/16.
  */
+
+/**
+ * Atomic structure of board. Consists of {@link CellState} and {@link CellCoordinates}
+ *
+ * @see CellCoordinates
+ * @see CellState
+ */
 public class Cell {
     final private CellState state;
     final private CellCoordinates coords;

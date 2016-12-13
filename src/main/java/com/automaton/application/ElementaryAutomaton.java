@@ -11,6 +11,10 @@ import static com.automaton.states.BinaryState.DEAD;
 /**
  * Created by lick on 11/25/16.
  */
+
+/**
+ * One dimensional automata defined by rule (0-255).
+ */
 public class ElementaryAutomaton extends Automaton1Dim {
     private byte rule;
     private BinaryState[] ruleOutcomes = new BinaryState[8];

@@ -15,6 +15,10 @@ import java.util.Set;
 /**
  * Created by lick on 11/11/16.
  */
+
+/**
+ * WireWorld simulator.
+ */
 public class WireWorld extends Automaton2Dim{
 
     public WireWorld(CellStateFactory stateFactory,

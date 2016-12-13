@@ -9,6 +9,13 @@ import java.util.Map;
 /**
  * Created by lick on 11/11/16.
  */
+
+/**
+ * Automaton extension providing proper handling of one dimensional cellular automata
+ *
+ * @see Automaton
+ * @see ElementaryAutomaton
+ */
 public abstract class Automaton1Dim extends Automaton {
     private int width;
 

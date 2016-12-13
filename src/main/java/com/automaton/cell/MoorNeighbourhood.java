@@ -6,6 +6,9 @@ import java.util.Set;
 /**
  * Created by lick on 11/10/16.
  */
+/**
+ * Moor neighbourhood includes every cell touching (even with corner) given one.
+ */
 public class MoorNeighbourhood implements CellNeighbourhood {
     private int width, height, range;
     private boolean wrapping;
@@ -18,12 +21,7 @@ public class MoorNeighbourhood implements CellNeighbourhood {
     }
 
 
-    /**
-     * Moor neighbourhood includes every cell touching (even with corner) given one.
-     *
-     * @param coords
-     * @return
-     */
+
     @Override
     public Set<CellCoordinates> cellNeighbours(CellCoordinates coords) {
         Set<CellCoordinates> resultSet = new HashSet<>();

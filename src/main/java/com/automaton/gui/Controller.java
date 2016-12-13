@@ -13,6 +13,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+/**
+ * JavaFX Controller of main.fxml layout. Implementation inspired by C-language.
+ */
 public class Controller {
 
     @FXML
@@ -52,6 +55,12 @@ public class Controller {
 
     @FXML
     private ChoiceBox<Boolean> wrappingChoiceBox;
+
+    @FXML
+    private ChoiceBox<String> insertStructureChoiceBox;
+
+    @FXML
+    private Button insertStructureButton;
 
     private enum State {MAP_GEN, PARAMS, SIM}
 
@@ -105,6 +114,8 @@ public class Controller {
                 "PEC",
                 "Amoebas"
         );
+
+        insertStructureChoiceBox.getItems().addAll("Glider", "Glider Gun (40x40)", "Spaceship", "Pulsar (35x35)");
 
 
         gameChoiceBox.getSelectionModel().selectFirst();
@@ -250,24 +261,30 @@ public class Controller {
             ruleTextField.setText("23/3");
         else if (ruleTextField.getText().equals("") && gameChoiceBox.getSelectionModel().isSelected(4))
             ruleTextField.setText("30");
+        insertStructureButton.setDisable(true);
+        insertStructureChoiceBox.setDisable(true);
 
         switch (gameChoiceBox.getSelectionModel().getSelectedIndex()) {
             case 0: //Game of Life
+                insertStructureButton.setDisable(false);
+                insertStructureChoiceBox.setDisable(false);
 
-                if(neighbourhoodChoiceBox.getSelectionModel().isSelected(0))
+                if(neighbourhoodChoiceBox.getSelectionModel().isSelected(0)) {
                     cellNeighbourhood = new MoorNeighbourhood(
                             width,
                             height,
                             Integer.parseInt(rangeTextField.getText()),
                             wrappingChoiceBox.getValue()
                     );
-                else
+                }
+                else {
                     cellNeighbourhood = new VonNeumanNeighbourhood(
                             width,
                             height,
                             Integer.parseInt(rangeTextField.getText()),
                             wrappingChoiceBox.getValue()
                     );
+                }
 
                 factory = new UniformStateFactory(BinaryState.DEAD);
 
@@ -281,20 +298,23 @@ public class Controller {
                 );
                 break;
             case 1: // Game of Life - QuadYOLO
-                if(neighbourhoodChoiceBox.getSelectionModel().isSelected(0))
+
+                if(neighbourhoodChoiceBox.getSelectionModel().isSelected(0)) {
                     cellNeighbourhood = new MoorNeighbourhood(
                             width,
                             height,
                             Integer.parseInt(rangeTextField.getText()),
                             wrappingChoiceBox.getValue()
                     );
-                else
+                }
+                else {
                     cellNeighbourhood = new VonNeumanNeighbourhood(
                             width,
                             height,
                             Integer.parseInt(rangeTextField.getText()),
                             wrappingChoiceBox.getValue()
                     );
+                }
 
                 factory = new UniformStateFactory(QuadState.DEAD);
 
@@ -308,6 +328,7 @@ public class Controller {
                 );
                 break;
             case 2: // Langton Ant
+
                 factory = new UniformStateFactory(new LangtonCell(BinaryState.DEAD));
 
                 currAutomaton = new LangtonAnt(
@@ -317,9 +338,10 @@ public class Controller {
                         wrappingChoiceBox.getValue()
                 );
                 break;
-            case 3: // Wireworld 
+            case 3: // Wireworld
+
                 factory = new UniformStateFactory(WireElectronState.VOID);
-                
+
                 currAutomaton = new WireWorld(
                         factory,
                         height,
@@ -357,7 +379,6 @@ public class Controller {
                 while (cellIterator.hasNext()) {
                     Cell cell = cellIterator.next();
                     if(cell.getCoords().equals(new Coords2D(coordX, coordY))) {
-                        System.out.println("X: "+coordX+", Y: "+coordY);
                         CellState state = cell.getState();
                         switch (gameChoiceBox.getSelectionModel().getSelectedIndex()) {
                             case 0: //Game of Life
@@ -517,6 +538,25 @@ public class Controller {
                 gc.setFill(Color.FLORALWHITE);
                 drawCell(i,j);
             }
+    }
+
+    @FXML
+    public void insertStructure(ActionEvent event) {
+        switch (insertStructureChoiceBox.getSelectionModel().getSelectedIndex()) {
+            case 0:
+                currAutomaton.insertStructure(Structures.getGlider());
+                break;
+            case 1:
+                currAutomaton.insertStructure(Structures.getGliderGun());
+                break;
+            case 2:
+                currAutomaton.insertStructure(Structures.getSpaceship());
+                break;
+            case 3:
+                currAutomaton.insertStructure(Structures.getPulsar());
+                break;
+        }
+        nextState(new ActionEvent());
     }
 
     @FXML

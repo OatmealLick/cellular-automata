@@ -6,11 +6,17 @@ import com.automaton.cell.CellNeighbourhood;
 import com.automaton.states.CellState;
 import com.automaton.cell.CellStateFactory;
 import com.automaton.states.QuadState;
-import java.lang.String.*;
 import java.util.*;
 
 /**
  * Created by lick on 11/11/16.
+ */
+
+/**
+ * Conway's Game of Life with ability to modify basic rules. Class is in receipt of QuadMode.
+ *
+ * @see Automaton
+ * @see Automaton1Dim
  */
 public class GameOfLife extends Automaton2Dim{
     boolean quadMode;
@@ -22,10 +28,6 @@ public class GameOfLife extends Automaton2Dim{
         super(neighboursStrategy, stateFactory, height, width);
         this.quadMode = quadMode;
         this.rule = rule;
-    }
-
-    public boolean isQuadMode() {
-        return quadMode;
     }
 
     @Override
@@ -43,22 +45,18 @@ public class GameOfLife extends Automaton2Dim{
 
     }
 
-    /**
-     * nextCellState determines next cell state judging by states of neighbours and itself.
-     *
-     * For now method is hardcoded 23/3 beacuse I have no idea whatsoever
-     * where should I pass rules to eventually ending up here
-     * @param currentCell
-     * @param neighboursStates
-     * @return
-     */
+    @Override
     protected CellState nextCellState(Cell currentCell, Set<Cell> neighboursStates) {
+
+        // set rules as Sets of cases defining when cell lives and revives
+        // rest of cases are when cell dies
         List<Set<Integer>> cases = parseRule(rule);
         Set<Integer> surviveCases = cases.get(0);
         Set<Integer> reviveCases = cases.get(1);
 
         CellState currentState = currentCell.getState();
 
+        // if quadmode we have to have particularly Conway's rules to properly set colors
         if(quadMode) {
 
             surviveCases = new HashSet<>(Arrays.asList(2,3));
@@ -98,10 +96,10 @@ public class GameOfLife extends Automaton2Dim{
 
                 } else
                     /* There are only 3 neighbours here.
-                        Most common color is that, which is beared by 2 or 3 neighbours in map.
+                        Most common color is that, which is being worn by 2 or 3 neighbours in map.
 
-                        There can only be one of above cases because 3 = 2 + 1  OR  3 = 3 + 0
-                        Therefore when I find a Color used more than once, I know it's maximum
+                        There can only be one of cases mentioned above because 3 = 2 + 1  OR  3 = 3 + 0
+                        Therefore when I find a Color used more than once, I know it's max-used color
                                                 I've been looking for.
                      */
                     for(Map.Entry<QuadState, Integer> entry : neighboursColors.entrySet())
@@ -116,6 +114,7 @@ public class GameOfLife extends Automaton2Dim{
                     neighboursAlive++;
             }
 
+            // return computed state
             if (currentState == BinaryState.ALIVE && !surviveCases.contains(neighboursAlive))
                 return BinaryState.DEAD;
             else if (currentState == BinaryState.DEAD && reviveCases.contains(neighboursAlive))
@@ -125,6 +124,7 @@ public class GameOfLife extends Automaton2Dim{
         return currentState;
     }
 
+    // convert rule given by User as String to List of Sets to pass to our nextState()
     private List<Set<Integer>> parseRule (String rule) {
         String[] parts = rule.split("/");
         String part1 = parts[0];

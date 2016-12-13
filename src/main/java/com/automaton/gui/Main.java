@@ -8,6 +8,11 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    /**
+     * Main class of Java FX Application.
+     * @param primaryStage stage
+     * @throws Exception because why UI shouldn't throw exceptions?
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
